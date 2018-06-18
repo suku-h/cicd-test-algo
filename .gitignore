@@ -1,0 +1,36 @@
+# Logs
+.vscode
+
+*.log
+
+logs/**
+
+npm-debug.log*
+
+config/db.json
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
+.grunt
+
+# Dependency directories
+node_modules/*
+jspm_packages
+config/*
+
+# Optional npm cache directory
+.npm
+
+# package lock file
+package-lock.json
+
+# yarn lock file
+yarn.lock
+
+# dummy data files
+dummy/*
