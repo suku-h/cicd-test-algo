@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "mocha test"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
@@ -18,5 +19,8 @@
     "postgreslib": "git://github.com/pravindot17/postgreslib.git",
     "winston": "^2.4.3",
     "winston-daily-rotate-file": "^3.2.1"
+  },
+  "devDependencies": {
+    "mocha": "^5.2.0"
   }
 }
