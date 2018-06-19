@@ -16,7 +16,6 @@
     "mongolib": "git://github.com/pravindot17/mongolib.git",
     "mysqllib": "git://github.com/pravindot17/mysqllib.git",
     "postgreslib": "git://github.com/pravindot17/postgreslib.git",
-    "serve-static": "^1.13.2",
     "winston": "^2.4.3",
     "winston-daily-rotate-file": "^3.2.1"
   }

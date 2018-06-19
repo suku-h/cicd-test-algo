@@ -34,3 +34,6 @@ yarn.lock
 
 # dummy data files
 dummy/*
+
+# database config
+db.json

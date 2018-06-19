@@ -1,13 +1,13 @@
-let serveStatic = require('serve-static');
-let test = require('./../modules/test/testCtrl');
+"use strict";
+
+let job = require('./../modules/job/jobCtrl');
 
 let express = require('express');
 let router = express.Router();
 
-router.get('/ping', test.ping);
-router.get('/test-mongo', test.testMongo);
-router.get('/test-pg', test.testPg);
-router.get('/test-mssql', test.testMssql);
-router.get('/test-mysql', test.testMysql);
+router.get('/job', job.getJobs);
+router.get('/job/:id', job.getJob);
+router.put('/job/:id', job.updateJob);
+router.post('/job', job.createJob);
 
 module.exports = router;
