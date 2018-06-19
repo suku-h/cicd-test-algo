@@ -37,3 +37,6 @@ dummy/*
 
 # database config
 db.json
+
+# sonar analysis
+.scannerwork
