@@ -1,6 +1,6 @@
 let assert = require('assert');
 let __util = require('../lib/util');
-global.__util = __util;
+global.BASEPATH = __util.getBasePath();
 let jobModel = require('../api/modules/job/jobModel');
 
 describe('Fetch latest 10 jobs', function() {

@@ -31,7 +31,7 @@ app
 	.use(function(req,res,next) {response.init(req,res,next);})
 	.use(helmet())
 	.use(cors())
-	.use(bodyParser.json())       
+	.use(bodyParser.json())
 	.use(bodyParser.urlencoded({extended: true}));
 
 //api routes for version v1
