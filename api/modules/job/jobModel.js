@@ -1,9 +1,7 @@
 "use strict";
 
-let basePath = __util.getBasePath();
-let __logger = console; //require(basePath + '/lib/logger');
-let postgres = require(basePath + '/lib/postgres');
-let __config = require(basePath + '/config/db.json');
+let postgres = require(`${BASEPATH}lib/postgres`);
+let __config = require(`${BASEPATH}config/db.json');
 
 async function getAllJobs() {
     try {

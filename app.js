@@ -1,68 +1,65 @@
 "use strict";
 
-let express = require('express');
-let helmet = require('helmet');
-let cors = require('cors');
-let http = require('http');
-let timeout = require('connect-timeout');
-let bodyParser = require("body-parser");
+let util 						= require('./lib/util');
 
-let __util = require('./lib/util');
-global.__util = __util;
-let __config = require('./config/constants.json');
-let __logger = console; //require('./lib/logger');  // need to be replaced with library
-let __res = require('./lib/responseBuilder');
+//check environment
+util.checkEnv();
 
-let app = {};
-__logger.info('loaded application with "' + process.env.NODE_ENV + '" environment, PID: ' + process.pid);
-let self = this;
+//set global base path and debug log
+global.BASEPATH 		= util.getBasePath();
+global.appLog		 		= util.debug;
 
-app = express();
-app.use(helmet());
-app.use(cors());
-app.use(timeout(__config.default_server_response_timeout, {respond: false}));
-app.use(haltOnTimedout);
-app.use(bodyParser.json());       // to support JSON-encoded bodies
-app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
-    extended: true
-}));
+let express 				= require('express'),
+		app 						= express(),
+		http 						= require('http'),
+		server 					= http.createServer(app),
+		cors 						= require('cors'),
+		logger 					= require('morgan'),
+		helmet 					= require('helmet'),
+		bodyParser 			= require("body-parser"),
+		response 				= require('./lib/response'),
+		config 					= require('./config/constant.json'),
+		v1 							= require('./api/routes/v1');
 
-let v1 = require('./api/routes/v1');
+server
+	.listen(config.expressPort)
+	.on('listening', function() {appLog(`Started\nENV:${process.env.NODE_ENV}, PID:${process.pid}, PORT:${config.expressPort} `);})
+	.on('error', onError);
+
+app
+	.use(logger('dev'))
+	.use(function(req,res,next) {response.init(req,res,next);})
+	.use(helmet())
+	.use(cors())
+	.use(bodyParser.json())       
+	.use(bodyParser.urlencoded({extended: true}));
+
+//api routes for version v1
 app.use('/v1', v1);
+app.use('/v1/*', function send(req, res) { res.json(res.response); });
 
-app.server = http.createServer(app);
-app.server.listen(__config.port);
-
-process.on('uncaughtException', function (err) {
-    __logger.error("Server crash reason ----------------------------------------------------", err);
+// catch 404 and forwarding to error handler
+app.use(function(req, res, next) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
 
-__logger.info('express server started on ' + __config.port + ', with api prefix ');
-__logger.info('TEST URL: ' + __config.base_url + 'ping');
-
-
-module.exports.stop_express_server = function () {
-    app.server.close();
-};
-
-function haltOnTimedout(req, res, next) {
-    if (!req.timedout) {
-        next()
-    } else {
-        __logger.error('haltOnTimedout, request timedout', {req_uuid: req.req_uuid});
-        res.send(__res.SERVER_TIMEDOUT('request from client timedout'));
-    }
-    req.on('timeout', function (time, next) {
-        __logger.error('haltOnTimedout, server response timedout', {req_uuid: req.req_uuid});
-        res.send(__res.SERVER_TIMEDOUT('server timed out after ' + time + ' milliseconds'));
-    });
+function onError(error) {
+  if (error.syscall !== 'listen') throw error;
+  var bind = typeof config.expressPort === 'string' ? 'Pipe ' + config.expressPort : 'Port ' + config.expressPort;
+  switch (error.code) {
+    case 'EACCES':
+      appLog(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      appLog(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
 }
 
-self.stopGracefully = function () {
-    __logger.info('stopping all resources gracefully');
-    self.stop_express_server();
-};
-
-// if something happens which stop the server the stop gracefully db connections to
-process.on('SIGINT', self.stopGracefully);
-process.on('SIGTERM', self.stopGracefully);
+module.exports = app;

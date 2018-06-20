@@ -15,6 +15,7 @@
     "lodash": "^4.17.10",
     "moment": "^2.22.2",
     "mongolib": "git://github.com/pravindot17/mongolib.git",
+    "morgan": "^1.9.0",
     "mysqllib": "git://github.com/pravindot17/mysqllib.git",
     "postgreslib": "git://github.com/pravindot17/postgreslib.git",
     "winston": "^2.4.3",

@@ -1,17 +1,51 @@
 "use strict";
 
-let basePath = __util.getBasePath();
-let __logger = console; //require(basePath + '/lib/logger');
-let __res = require(basePath + '/lib/responseBuilder');
-let jobModel = require('./jobModel');
+let jobModel 		= require('./jobModel'),
+		BadRequest 	= require(`${BASEPATH}errors/errors`).BadRequest,
+		errMsg 			= require(`${BASEPATH}config/errorCodes`),
+		response 		= require(`${BASEPATH}lib/response`);
+
+module.exports = {
+    getJobs: getJobs,
+    getJob: getJob,
+    updateJob: updateJob,
+    createJob: createJob,
+		getJobsTest: getJobsTest
+};
+
+function func1() {
+	return 'func1';
+}
+
+function func2() {
+	return 'func2';
+}
+
+function func3() {
+	return new Promise(function(resolve,reject) {
+		resolve('func 3');
+	});
+}
+
+async function getJobsTest(req,res,next) {
+	try {
+		let resp1 = await func1();
+		let resp2 = await func2();
+		let resp3 = await func3();
+		res.response = response.createSuccessResponse([resp1,resp2,resp3],'S1001');
+		return next();
+	} catch(err) {
+		return next(new BadRequest(errMsg['E1001'], 'E1001'));
+	}
+}
 
 async function getJobs(req, res) {
     try {
         let response = await jobModel.getAllJobs();
-        __logger.debug("Successfully fetched jobs data", JSON.stringify(response));
+        appLog("Successfully fetched jobs data", JSON.stringify(response));
         res.send(__res.SUCCESS(response, 'N1001'));
     } catch(err) {
-        __logger.error("Something went wrong while fetching jobs data", err);
+        appLog("Something went wrong while fetching jobs data", err);
         res.send(__res.ERROR(err, err.message));
     }
 }
@@ -19,10 +53,10 @@ async function getJobs(req, res) {
 async function getJob(req, res) {
     try {
         let response = await jobModel.getJob(req.params.id);
-        __logger.debug("Successfully fetched job data", JSON.stringify(response));
+        appLog("Successfully fetched job data", JSON.stringify(response));
         res.send(__res.SUCCESS(response, 'N1001'));
     } catch(err) {
-        __logger.error("Something went wrong while fetching job data", err);
+        appLog("Something went wrong while fetching job data", err);
         res.send(__res.ERROR(err, err.message));
     }
 }
@@ -35,9 +69,3 @@ async function createJob(req, res) {
     // code for update job
 }
 
-module.exports = {
-    getJobs: getJobs,
-    getJob: getJob,
-    updateJob: updateJob,
-    createJob: createJob
-};
