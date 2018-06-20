@@ -7,15 +7,15 @@
     "test": "mocha test"
   },
   "dependencies": {
+    "b2x-mysql": "https://git.b2xcare.com/projectx/b2x-mysql/repository/archive.tar.gz?private_token=e5sqsXiZuSQ8Dusqd9sB",
+    "b2x-postgres": "https://git.b2xcare.com/projectx/b2x-postgres/repository/archive.tar.gz?private_token=e5sqsXiZuSQ8Dusqd9sB",
     "body-parser": "^1.18.3",
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "helmet": "^3.12.1",
     "lodash": "^4.17.10",
     "moment": "^2.22.2",
-    "morgan": "^1.9.0",
-    "mysqllib": "git://github.com/pravindot17/mysqllib.git",
-    "postgreslib": "git://github.com/pravindot17/postgreslib.git"
+    "morgan": "^1.9.0"
   },
   "devDependencies": {
     "mocha": "^5.2.0"
