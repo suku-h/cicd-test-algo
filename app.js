@@ -38,6 +38,9 @@ app
 app.use('/v1', v1);
 app.use('/v1/*', function send(req, res) { res.json(res.response); });
 
+// express request favicon by default to prevent this, or else set your favicon if you have and remove this line
+app.get('/favicon.ico', (req, res) => res.status(204));
+
 // catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
