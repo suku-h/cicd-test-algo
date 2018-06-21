@@ -7,8 +7,8 @@
     "test": "mocha test"
   },
   "dependencies": {
-    "b2x-mysql": "https://git.b2xcare.com/projectx/b2x-mysql/repository/archive.tar.gz?private_token=e5sqsXiZuSQ8Dusqd9sB",
-    "b2x-postgres": "https://git.b2xcare.com/projectx/b2x-postgres/repository/archive.tar.gz?private_token=e5sqsXiZuSQ8Dusqd9sB",
+    "b2x-mysql": "git+http://projectx:e5sqsXiZuSQ8Dusqd9sB@git.b2xcare.com/projectx/b2x-mysql.git#master",
+    "b2x-postgres": "git+http://projectx:e5sqsXiZuSQ8Dusqd9sB@git.b2xcare.com/projectx/b2x-postgres.git#master",
     "body-parser": "^1.18.3",
     "cors": "^2.8.4",
     "express": "^4.16.3",
