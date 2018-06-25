@@ -69,7 +69,7 @@ process.on('unhandledRejection', (err, p) => {
 			p: p
 		})
 	});
-})
+});
 
 function onError(error) {
   if (error.syscall !== 'listen') throw error;
