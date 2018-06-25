@@ -48,6 +48,29 @@ app.use(function(req, res, next) {
   next(err);
 });
 
+// uncaught exception handling
+process.on('unhandledRejection', (err, p) => {
+	appLog({
+		type: 'server',
+		level: 'error',
+		message: 'Process unhandled rejection',
+		data: JSON.stringify({
+			reason: err.stack || err,
+			p: p
+		})
+	});
+}).on('uncaughtException', function (err, p) {
+	appLog({
+		type: 'server',
+		level: 'error',
+		message: 'Process uncaught exception',
+		data: JSON.stringify({
+			reason: err.stack || err,
+			p: p
+		})
+	});
+})
+
 function onError(error) {
   if (error.syscall !== 'listen') throw error;
   var bind = typeof config.expressPort === 'string' ? 'Pipe ' + config.expressPort : 'Port ' + config.expressPort;
