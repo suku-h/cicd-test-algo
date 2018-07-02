@@ -1,9 +1,9 @@
 "use strict";
 
-let express 			= require('express'),
-	router 				= express.Router(),
-	job 				= require(`${BASEPATH}/api/modules/job/jobCtrl`),
-	errorHandler 	    = require(`${BASEPATH}/errors/errorHandler`);
+let express = require('express'),
+  router = express.Router(),
+  job = require(`${BASEPATH}/api/modules/job/jobCtrl`),
+  errorHandler = require(`${BASEPATH}/errors/errorHandler`);
 
 router.get('/job', job.getJobs);
 router.get('/job/:id', job.getJob);
