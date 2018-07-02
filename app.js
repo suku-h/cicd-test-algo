@@ -1,5 +1,6 @@
 "use strict";
 
+
 let util 						= require('./lib/util');
 
 //check environment
@@ -8,6 +9,8 @@ util.checkEnv();
 //set global base path and debug log
 global.BASEPATH 		= util.getBasePath();
 global.appLog		 		= util.debug;
+global.auditLog     = util.audit;
+
 
 let express 				= require('express'),
 		app 						= express(),
@@ -19,7 +22,8 @@ let express 				= require('express'),
 		bodyParser 			= require("body-parser"),
 		response 				= require('./lib/response'),
 		config 					= require('./config/constant.json'),
-		v1 							= require('./api/routes/v1');
+		v1 							= require('./api/routes/v1'),
+		uuid						= require('uuid/v1');
 
 server
 	.listen(config.expressPort)
@@ -37,6 +41,17 @@ app
 //api routes for version v1
 app.use('/v1', v1);
 app.use('/v1/*', function send(req, res) { res.json(res.response); });
+
+app.use(function (req, res, next) {
+  let b2xReqID = uuid()
+  req.headers.b2xReqID = b2xReqID
+  req.headers.ip = req.ip
+  req.headers.url = req.url
+  if (res && res.headers) {
+    res.headers.b2xReqID = b2xReqID
+  }
+  next()
+})
 
 // express request favicon by default to prevent this, or else set your favicon if you have and remove this line
 app.get('/favicon.ico', (req, res) => res.status(204));

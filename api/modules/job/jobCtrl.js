@@ -25,6 +25,7 @@ async function getJobs(req, res, next) {
 
 async function getJob(req, res, next) {
     try {
+        auditLog("success",1,"3","4","5",req.headers);
         let result = await jobModel.getJob(req.params.id);
         res.response = response.createSuccessResponse(result, 'S1001');
         return next();
