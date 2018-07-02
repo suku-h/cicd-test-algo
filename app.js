@@ -1,42 +1,42 @@
 "use strict";
 
 
-let util 						= require('./lib/util');
+let util = require('./lib/util');
 
 //check environment
 util.checkEnv();
 
 //set global base path and debug log
-global.BASEPATH 		= util.getBasePath();
-global.appLog		 		= util.debug;
-global.auditLog     = util.audit;
+global.BASEPATH = util.getBasePath();
+global.appLog = util.debug;
+global.auditLog = util.audit;
 
 
-let express 				= require('express'),
-		app 						= express(),
-		http 						= require('http'),
-		server 					= http.createServer(app),
-		cors 						= require('cors'),
-		logger 					= require('morgan'),
-		helmet 					= require('helmet'),
-		bodyParser 			= require("body-parser"),
-		response 				= require('./lib/response'),
-		config 					= require('./config/constant.json'),
-		v1 							= require('./api/routes/v1'),
-		uuid						= require('uuid/v1');
+let express = require('express'),
+  app = express(),
+  http = require('http'),
+  server = http.createServer(app),
+  cors = require('cors'),
+  logger = require('morgan'),
+  helmet = require('helmet'),
+  bodyParser = require("body-parser"),
+  response = require('./lib/response'),
+  config = require('./config/constant.json'),
+  v1 = require('./api/routes/v1'),
+  uuid = require('uuid/v1');
 
 server
-	.listen(config.expressPort)
-	.on('listening', function() {appLog(`Started\nENV:${process.env.NODE_ENV}, PID:${process.pid}, PORT:${config.expressPort} `);})
-	.on('error', onError);
+  .listen(config.expressPort)
+  .on('listening', function () { appLog(`Started\nENV:${process.env.NODE_ENV}, PID:${process.pid}, PORT:${config.expressPort} `); })
+  .on('error', onError);
 
 app
-	.use(logger('dev'))
-	.use(function(req,res,next) {response.init(req,res,next);})
-	.use(helmet())
-	.use(cors())
-	.use(bodyParser.json())
-	.use(bodyParser.urlencoded({extended: true}));
+  .use(logger('dev'))
+  .use(function (req, res, next) { response.init(req, res, next); })
+  .use(helmet())
+  .use(cors())
+  .use(bodyParser.json())
+  .use(bodyParser.urlencoded({ extended: true }));
 
 //api routes for version v1
 app.use('/v1', v1);
@@ -57,7 +57,7 @@ app.use(function (req, res, next) {
 app.get('/favicon.ico', (req, res) => res.status(204));
 
 // catch 404 and forwarding to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
@@ -65,25 +65,25 @@ app.use(function(req, res, next) {
 
 // uncaught exception handling
 process.on('unhandledRejection', (err, p) => {
-	appLog({
-		type: 'server',
-		level: 'error',
-		message: 'Process unhandled rejection',
-		data: JSON.stringify({
-			reason: err.stack || err,
-			p: p
-		})
-	});
+  appLog({
+    type: 'server',
+    level: 'error',
+    message: 'Process unhandled rejection',
+    data: JSON.stringify({
+      reason: err.stack || err,
+      p: p
+    })
+  });
 }).on('uncaughtException', function (err, p) {
-	appLog({
-		type: 'server',
-		level: 'error',
-		message: 'Process uncaught exception',
-		data: JSON.stringify({
-			reason: err.stack || err,
-			p: p
-		})
-	});
+  appLog({
+    type: 'server',
+    level: 'error',
+    message: 'Process uncaught exception',
+    data: JSON.stringify({
+      reason: err.stack || err,
+      p: p
+    })
+  });
 });
 
 function onError(error) {
