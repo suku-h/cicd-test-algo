@@ -1,45 +1,42 @@
 "use strict";
 
-let jobModel = require('./jobModel'),
-  BadRequest = require(`${BASEPATH}/errors/errors`).BadRequest,
-  errMsg = require(`${BASEPATH}/config/errorCodes`),
-  response = require(`${BASEPATH}/lib/response`);
+let jobService 		= require('./jobService'),
+    BadRequest  = require(`${BASEPATH}/errors/errors`).BadRequest,
+    errMsg      = require(`${BASEPATH}/config/errorCodes`);
 
 module.exports = {
-  getJobs: getJobs,
-  getJob: getJob,
-  updateJob: updateJob,
-  createJob: createJob
+	getData: getData
 };
 
-async function getJobs(req, res, next) {
-  try {
-    let result = await jobModel.getAllJobs();
-    res.response = response.createSuccessResponse(result, 'S1001');
-    return next();
-  } catch (err) {
-    appLog("Something went wrong while fetching jobs data", err);
-    return next(new BadRequest(errMsg['E1001'], 'E1001'));
-  }
-}
+async function getData(req,res,next) {
 
-async function getJob(req, res, next) {
-  try {
-    auditLog("success", 1, "3", "4", "5", req.headers);
-    let result = await jobModel.getJob(req.params.id);
-    res.response = response.createSuccessResponse(result, 'S1001');
-    return next();
-  } catch (err) {
-    appLog("Something went wrong while fetching job data", err);
-    return next(new BadRequest(errMsg['E1001'], 'E1001'));
-  }
-}
+	let functionName = 'getData';
 
-async function updateJob(req, res) {
-  // code for update job
-}
+	try {
 
-async function createJob(req, res) {
-  // code for update job
-}
+		auditLog('getData called', 1, 'start', functionName, 'info', req.headers);
 
+		let res1 = await jobService.fun1();
+		auditLog('jobService.fun1 success', 2, 'inprogress', functionName, 'info', req.headers, res1);
+
+		let res2 = await jobService.fun2();
+		auditLog('jobService.fun2 success', 2, 'inprogress', functionName, 'info', req.headers, res2);
+
+		let res3 = await jobService.fun3();
+		auditLog('jobService.fun3 success', 2, 'inprogress', functionName, 'info', req.headers, res3);
+
+		let res4 = await jobService.getData(); 
+		auditLog('jobService.getData success', 99, 'closed', functionName, 'info', req.headers, res4);
+
+		res.response = res4;
+
+		return next();
+
+	} catch(err) {
+
+		auditLog('getData failed', 100, 'error', functionName, 'info', req.headers, err);
+		return next(new BadRequest(errMsg['E1003'],'E1003',err));
+
+	}
+
+}

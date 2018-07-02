@@ -1,33 +1,38 @@
 "use strict";
 
 let postgres = require(`${BASEPATH}/lib/postgres`);
-let __dbQueries = require(`${BASEPATH}/lib/dbQueries`);
-// let __config = require(`${BASEPATH}/config/db.json`);
+let __config = require(`${BASEPATH}/config/db.json`);
 
 module.exports = {
-  getAllJobs: getAllJobs,
-  getJob: getJob
+    fun1: fun1,
+    fun2: fun2,
+    fun3: fun3,
+    fun4: fun4
 }
 
-async function getAllJobs() {
-  try {
-    // let dbConn = await postgres.init(__config.LENOVO_EMEA);
-    // return await dbConn.__select(__dbQueries.getAllJobs(), []);
-    return 'success';
-  } catch (err) {
-    throw err;
-  }
+function fun1() {
+	return new Promise(function(resolve,reject) {
+		resolve({data: [1,2,3,4,5]});
+	});
 }
 
-async function getJob(jobId) {
-  try {
-    // let dbConn = await postgres.init(__config.LENOVO_EMEA);
-    // let queryResponse = await dbConn.__select(__dbQueries.getJob(), [jobId]);
-
-    // return queryResponse.length ? queryResponse[0] : null;
-    return 'success';
-
-  } catch (err) {
-    throw err;
-  }
+function fun2() {
+	return new Promise(function(resolve,reject) {
+		resolve({data: [6,7,8,9,10]});
+	});
 }
+
+function fun3() {
+	return new Promise(function(resolve,reject) {
+		let e = new Error('func3 failed');
+		//reject(e);
+		resolve({data: [11,12,13,14,15]});
+	});
+}
+
+function fun4() {
+	return new Promise(function(resolve,reject) {
+		resolve({data: [16,17,18,19,20]});
+	});
+}
+

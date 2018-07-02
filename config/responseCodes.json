@@ -1,4 +1,7 @@
 {
-	"S1001": "Get jobs processed successfully"
+	"S1001": "Get jobs processed successfully",
+	"S1002": "Update job processed successfully",
+	"S1003": "Create job processed successfully",
+	"S1004": "Get data processed successfully"
 
 }
