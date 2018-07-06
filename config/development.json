@@ -1,0 +1,17 @@
+{
+    "SRTAPI": {
+        "auth": "B56a7957a8452621d564cdb1e",
+        "createJob": {
+            "url": "http://localhost:8003/core/api/createJob",
+            "method": "POST"
+        },
+        "updateJob": {
+            "url": "http://localhost:8003/core/api/updatejob",
+            "method": "PUT"
+        },
+        "searchJob": {
+            "url": "http://localhost:8003/core/api/searchJob",
+            "method": "GET"
+        }
+    }
+}

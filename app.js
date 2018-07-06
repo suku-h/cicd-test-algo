@@ -19,14 +19,15 @@ let express 				= require('express'),
 		helmet 					= require('helmet'),
 		bodyParser 			= require("body-parser"),
 		response 				= require('./lib/response'),
-    config 					= require('./config/constant.json'),
+    config = require('./config'),
+	  constant = require('./config/constant.json'),
     NotFound        = require(`./errors/errors`).NotFound,
     errorHandler        = require(`./errors/errorHandler`),
 		v1 							= require('./api/routes/v1');
 
 server
-  .listen(config.expressPort)
-  .on('listening', function () { appLog(`Started\nENV:${process.env.NODE_ENV}, PID:${process.pid}, PORT:${config.expressPort} `); })
+  .listen(constant.expressPort)
+  .on('listening', function () { appLog(`Started\nENV:${process.env.NODE_ENV}, PID:${process.pid}, PORT:${constant.expressPort} `); })
   .on('error', onError);
 
 app
@@ -47,7 +48,7 @@ app.use(errorHandler);
 
 function onError(error) {
   if (error.syscall !== 'listen') throw error;
-  var bind = typeof config.expressPort === 'string' ? 'Pipe ' + config.expressPort : 'Port ' + config.expressPort;
+  var bind = typeof constant.expressPort === 'string' ? 'Pipe ' + constant.expressPort : 'Port ' + constant.expressPort;
   switch (error.code) {
     case 'EACCES':
       appLog(bind + ' requires elevated privileges');
