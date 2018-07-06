@@ -25,7 +25,7 @@ async function getData(req,res,next) {
 		let res3 = await jobService.fun3();
 		auditLog('jobService.fun3 success', 2, 'inprogress', functionName, 'info', req.headers, res3);
 
-		let res4 = await jobService.getData(); 
+		let res4 = await jobService.getData();
 		auditLog('jobService.getData success', 99, 'closed', functionName, 'info', req.headers, res4);
 
 		res.response = res4;

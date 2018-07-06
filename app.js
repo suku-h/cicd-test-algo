@@ -19,7 +19,9 @@ let express 				= require('express'),
 		helmet 					= require('helmet'),
 		bodyParser 			= require("body-parser"),
 		response 				= require('./lib/response'),
-		config 					= require('./config/constant.json'),
+    config 					= require('./config/constant.json'),
+    NotFound        = require(`./errors/errors`).NotFound,
+    errorHandler        = require(`./errors/errorHandler`),
 		v1 							= require('./api/routes/v1');
 
 server
@@ -39,10 +41,9 @@ app.use('/v1', v1);
 app.use('/v1/*', function send(req, res) { res.json(res.response); });
 
 app.use(function (req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+  next(new NotFound());
 });
+app.use(errorHandler);
 
 function onError(error) {
   if (error.syscall !== 'listen') throw error;
