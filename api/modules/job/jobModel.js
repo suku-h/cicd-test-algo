@@ -24,7 +24,7 @@ function fun2() {
 
 function fun3() {
 	return new Promise(function(resolve,reject) {
-		let e = new Error('func3 failed');
+		// let e = new Error('func3 failed');
 		//reject(e);
 		resolve({data: [11,12,13,14,15]});
 	});
