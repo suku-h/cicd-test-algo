@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 let postgres = require(`${BASEPATH}/lib/postgres`);
 let __config = require(`${BASEPATH}/config/db.json`);

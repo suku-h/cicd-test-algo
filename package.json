@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "NODE_ENV='development' AUDIT='false' DEBUG='true' node app.js",
-    "dev": "NODE_ENV='development' AUDIT='false' DEBUG='true' node app.js",
+    "dev": "NODE_ENV='development' AUDIT='false' DEBUG='true' nodemon app.js",
     "prod": "NODE_ENV='production' AUDIT='true' DEBUG='false' node app.js",
     "stage": "NODE_ENV='testing' AUDIT='true' DEBUG='true' node app.js",
     "test": "mocha test"
