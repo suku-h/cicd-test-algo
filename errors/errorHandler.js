@@ -1,29 +1,23 @@
 'use strict';
 
-const errors 			= require(`${BASEPATH}/errors/errors`);
-let BadRequest 		= errors.BadRequest,
-		Unauthorized 	= errors.Unauthorized,
-		Forbidden 		= errors.Forbidden,
-		NotFound 			= errors.NotFound,
-		Unavailable 	= errors.Unavailable;
+const errors = require(`${BASEPATH}/errors/errors`);
+let BadRequest = errors.BadRequest,
+  Unauthorized = errors.Unauthorized,
+  Forbidden = errors.Forbidden,
+  NotFound = errors.NotFound,
+  Unavailable = errors.Unavailable,
+  response = require(`${BASEPATH}/lib/response`);
 
 module.exports = function errorHandler(err, req, res, next) {
-	res.status(500);
-  if (err instanceof BadRequest) res.status(400);
-  else if (err instanceof NotFound) res.status(404);
-  else if (err instanceof Forbidden) res.status(403);
-  else if (err instanceof Unauthorized) res.status(401);
-  else if (err instanceof Unavailable) res.status(503);
+  let statusCode = 500;
+  if (err instanceof BadRequest) statusCode = 400;
+  else if (err instanceof NotFound) statusCode = 404;
+  else if (err instanceof Forbidden) statusCode = 403;
+  else if (err instanceof Unauthorized) statusCode = 401;
+  else if (err instanceof Unavailable) statusCode = 503;
 
-	let errStr = err.errData;
-	if(err.errData instanceof Error) errStr = err.errData.toString();
-
-  res.response = {
-		type: 'error',
-		code: err.code || 0,
-		data: errStr || '',
-		message: err.message || 'Oops, something went wrong'
-	};
-  appLog(res.response);
+  auditLog(`${err.functionName}:: Api failed`, 100, 'error', err.functionName, 'error', req.headers, err);
+  res.response = response.createFailureResponse(err);
+  res.status(statusCode);
   res.json(res.response);
 };

@@ -1,3 +1,8 @@
 {
-	"expressPort": 8000
+	"expressPort": 8008,
+	"invalid_request": "Invalid Request",
+	"unauthorized": "Unauthorized to Perform Action",
+	"not_found": "Not Found",
+	"access_denied": "Access Denied",
+	"unavailable": "Data is Unavailable"
 }

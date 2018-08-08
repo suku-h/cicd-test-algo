@@ -1,20 +1,13 @@
-"use strict";
+'use strict';
 
-let express 		= require('express'),
-	router 				= express.Router(),
-	job 					= require(`${BASEPATH}/api/modules/job/jobCtrl`),
-	NotFound  = require(`${BASEPATH}/errors/errors`).NotFound,
-	errorHandler	= require(`${BASEPATH}/errors/errorHandler`);
+let express = require('express'),
+	router = express.Router(),
+	job = require(`${BASEPATH}/api/modules/job/jobCtrl`),
+	NotFound = require(`${BASEPATH}/errors/errors`).NotFound,
+	errorHandler = require(`${BASEPATH}/errors/errorHandler`),
+	util = require(`${BASEPATH}/lib/util`);
 
-router.get('/jdata', job.getData);
-
-// handle 404 errors
-router.use(function(req, res, next) {
-    if (!req.route) {
-        return next(new NotFound());
-	}
-    next();
-});
+router.get('/jdata', util.wrapperCall(job.getData));
 
 router.use(errorHandler);
 

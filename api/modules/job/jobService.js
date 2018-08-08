@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 let jobModel    = require('./jobModel'),
     BadRequest  = require(`${BASEPATH}/errors/errors`).BadRequest,
@@ -37,6 +37,6 @@ async function getData() {
 		let res3 = await jobModel.fun3();
 		let res4 = await jobModel.fun4();
 		let result = {res1, res2, res3, res4};
-		return response.createSuccessResponse(result, 'S1004');
+		return result;
 }
 
